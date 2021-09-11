@@ -1,0 +1,519 @@
+<html>
+<head>
+
+<!--Downloding Javascript packages-->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+<script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+  
+</head>
+<body>
+<!--Putting labels-->
+
+<h1>Gauge Graphs</h1>
+
+<div class = "gauge_title1">Humidity of Environment(grams of water vapor per cubic meter volume of air)</div>
+<div class = "gauge_label1"> 0-40 </div>
+<div class = "gauge_label2"> 40-60 </div>
+<div class = "gauge_label3"> 60-80</div>
+
+<div class = "gauge_title2">Light hitting Plant</div>
+<div class = "gauge_label4"> Not Enough </div>
+<div class = "gauge_label5"> Good Amount </div>
+<div class = "gauge_label6"> Too Much  </div>
+
+<div class = "gauge_title3">Soil Moisture</div>
+<div class = "gauge_label7"> Very Low Amount</div>
+<div class = "gauge_label8"> Low Amount </div>
+<div class = "gauge_label9"> Good Amount </div>
+<div class = "gauge_label10"> High Amount </div>
+<div class = "gauge_label11"> Very High Amount </div>
+
+<div class = "gauge_title4">Temperature of Environment(celsius)</div>
+<div class = "gauge_label12"> 0-10 </div>
+<div class = "gauge_label13"> 10-15 </div>
+<div class = "gauge_label14"> 15-20 </div>
+<div class = "gauge_label15"> 20-25 </div>
+<div class = "gauge_label16"> 25-35 </div>
+
+<!--Making buttons-->
+<a href="{{url_for("index")}}" class ="button" >Line Graphs</a>
+<a href="{{url_for("table")}}" class ="button2" >Information Table</a>
+<a href="{{url_for("plant_height")}}" class ="button3" >Plant Height</a>
+<a href="{{url_for("virtual_twin")}}" class ="button4" >Virtual_Twin</a>
+<!--Making graphs-->
+<div id="canvas-holder" style="width:100%">
+    <canvas class="myCanvas" id="myCanvas"></canvas>
+    <canvas class="myCanvas2" id="myCanvas2"></canvas>
+    <canvas class="myCanvas3" id="myCanvas3"></canvas>
+    <canvas class="myCanvas4" id="myCanvas4"></canvas>
+  </div>
+  
+<!--Creating Alert Box-->
+<div id="alert"> WATER PLANT!</div>  
+  
+</body>
+</html>
+
+<style>
+
+/*Styling all boxes and titles*/
+
+#alert{
+position:absolute;
+width:30%;
+height:30%;
+left:60%;
+top:60%;
+background-color:red;
+font-size:100;
+color:white;
+text-align: center;
+opacity:0;
+border:10px solid black;
+animation-name:blink;
+animation-iteration-count:infinite;
+animation-duration:1s;
+animation-direction:alternate;
+z-index:1000000000000;
+}
+
+/*Creating animation for alert*/
+@keyframes blink{
+    0%{opacity:0;}
+    100%{opacity:0;}
+}
+
+.button{
+position:absolute;
+top:2%;
+left:15%;
+z-index:30;
+}
+
+.button2{
+position:absolute;
+top:2%;
+left:40%;
+z-index:30;
+}
+
+.button3{
+position:absolute;
+top:2%;
+left:65%;
+z-index:30;
+}
+.button4{
+position:absolute;
+top:2%;
+left:90%;
+z-index:30;
+}
+.gauge_title1{
+position:absolute;
+top:7%;
+font-weight:600;
+left:10%;
+width:30%;
+text-align:center;
+z-index:30;
+}
+
+.gauge_label1{
+position:absolute;
+top:25%;
+left:15%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_label2{
+position:absolute;
+top:18%;
+left:27%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_label3{
+position:absolute;
+top:32%;
+left:35%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_title4{
+position:absolute;
+top:7%;
+font-weight:600;
+left:60%;
+width:30%;
+text-align:center;
+z-index:30;
+}
+
+.gauge_label12{
+position:absolute;
+top:30%;
+left:63.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+width:7%;
+}
+
+.gauge_label14{
+position:absolute;
+top:15%;
+left:73.3%;
+font-weight:400;
+font-size:23;
+z-index:10000000000;
+}
+
+.gauge_label16{
+position:absolute;
+top:30%;
+left:83.5%;
+font-weight:400;
+font-size:23;
+z-index:10000000000;
+width:7%;
+}
+
+.gauge_label13{
+position:absolute;
+top:20%;
+left:68.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_label15{
+position:absolute;
+top:20%;
+left:78.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+color:white;
+}
+
+.gauge_title2{
+position:absolute;
+top:57%;
+font-weight:600;
+left:10%;
+width:30%;
+text-align:center;
+z-index:30;
+}
+
+
+.gauge_label4{
+position:absolute;
+top:80%;
+left:11%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_label5{
+position:absolute;
+top:65%;
+left:22%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_label6{
+position:absolute;
+top:80%;
+left:32.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_title3{
+position:absolute;
+top:57%;
+font-weight:600;
+left:60%;
+width:30%;
+text-align:center;
+z-index:30;
+}
+
+.gauge_label7{
+position:absolute;
+top:80%;
+left:61.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+width:7%;
+}
+
+.gauge_label9{
+position:absolute;
+top:65%;
+left:71.3%;
+font-weight:400;
+font-size:23;
+z-index:10000000000;
+}
+
+.gauge_label11{
+position:absolute;
+top:82%;
+left:83.5%;
+font-weight:400;
+font-size:23;
+z-index:10000000000;
+color:white;
+width:7%;
+}
+
+.gauge_label8{
+position:absolute;
+top:70%;
+left:64.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.gauge_label10{
+position:absolute;
+top:70%;
+left:78.5%;
+font-weight:400;
+font-size:24;
+z-index:10000000000;
+}
+
+.myCanvas{
+position:absolute;
+top:10%;
+left:10%;
+width:30% !important;
+height:30% !important;
+}
+
+.myCanvas4{
+position:absolute;
+top:10%;
+left:60%;
+width:30% !important;
+height:30% !important;
+}
+
+.myCanvas2{
+position:absolute;
+top:60%;
+left:10%;
+width:30% !important;
+height:30% !important;
+}
+
+.myCanvas3{
+position:absolute;
+top:60%;
+left:60%;
+width:30% !important;
+height:30% !important;
+}
+
+</style>
+
+<script>
+//Making all graphs below. Setting size, colour and data used  
+  
+d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart);
+ function makeChart(data) {
+     console.log(data.length);
+     var ctx = document.getElementById("myCanvas").getContext("2d");
+     var humid = data[data.length-1].humidity;
+    var chart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        datasets: [{
+          value: humid,
+          minValue: 0,
+          data: [40, 60, 80],
+          backgroundColor: ['yellow','#96EE35','red'],
+        }]
+      },
+      options: {
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: 'rgba(0, 0, 0, 1)'
+        },
+        valueLabel: {
+          display: true,
+          formatter: (value) => {
+            return '$' + Math.round(value);
+          },
+          color: 'rgba(255, 255, 255, 1)',
+          backgroundColor: 'rgba(0, 0, 0, 1)',
+          borderRadius: 5,
+          padding: {
+            top: 10,
+            bottom: 10
+          }
+        }
+      }
+    });
+}
+ 
+d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart4);
+ function makeChart4(data) {
+     console.log(data.length);
+     var ctx = document.getElementById("myCanvas4").getContext("2d");
+     var temp = data[data.length-1].temperature;
+    var chart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        datasets: [{
+          value: temp,
+          minValue: 0,
+          data: [10, 15, 20, 25, 35],
+          backgroundColor: ['yellow','orange','#96EE35','darkgreen', 'red'],
+        }]
+      },
+      options: {
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: 'rgba(0, 0, 0, 1)'
+        },
+        valueLabel: {
+          display: true,
+          formatter: (value) => {
+            return '$' + Math.round(value);
+          },
+          color: 'rgba(255, 255, 255, 1)',
+          backgroundColor: 'rgba(0, 0, 0, 1)',
+          borderRadius: 5,
+          padding: {
+            top: 10,
+            bottom: 10
+          }
+        }
+      }
+    });
+}
+ 
+ d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart2);
+ function makeChart2(data) {
+     console.log(data.length);
+     var ctx = document.getElementById("myCanvas2").getContext("2d");
+     var light = data[data.length-1].light;
+    var chart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        datasets: [{
+          value: light,
+          minValue: 0,
+          data: [2000, 4000, 6000],
+          backgroundColor: ['yellow','#96EE35', 'red'],
+        }]
+      },
+      options: {
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: 'rgba(0, 0, 0, 1)'
+        },
+        valueLabel: {
+          display: true,
+          formatter: (value) => {
+            return '$' + Math.round(value);
+          },
+          color: 'rgba(255, 255, 255, 1)',
+          backgroundColor: 'rgba(0, 0, 0, 1)',
+          borderRadius: 5,
+          padding: {
+            top: 10,
+            bottom: 10
+          }
+        }
+      }
+    });
+}
+ 
+ 
+ d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart3);
+ function makeChart3(data) {
+     var ctx = document.getElementById("myCanvas3").getContext("2d");
+     var soil = data[data.length-1].moisture;
+    var chart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        datasets: [{
+          value: soil,
+          minValue: 0,
+          data: [10, 20, 30, 40, 50],
+          backgroundColor: ['red', 'orange', 'yellow', '#96EE35','darkgreen'],
+        }]
+      },
+      options: {
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: 'rgba(0, 0, 0, 1)'
+        },
+        valueLabel: {
+          display: true,
+          formatter: (value) => {
+            return '$' + Math.round(value);
+          },
+          color: 'rgba(255, 255, 255, 1)',
+          backgroundColor: 'rgba(0, 0, 0, 1)',
+          borderRadius: 5,
+          padding: {
+            top: 10,
+            bottom: 10
+          }
+        }
+      }
+    });
+}
+ 
+//Starting animation 
+d3
+ .csv("/static/demofile3.csv")
+ .then(alerting)
+function alerting(data){
+var s = data[data.length-1].moisture;
+if (s < 10) {
+  document.getElementById("alert").style.opacity = "1";
+
+} else {
+  document.getElementById("alert").style.opacity = "0"; 
+    }}
+</script>
+

@@ -1,0 +1,63 @@
+<html>
+<head>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+<script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+  
+</head>
+<body>
+
+<h1>Information Table</h1>
+
+<a href="{{url_for("index")}}" class ="button" >Line Graphs</a>
+<a href="{{url_for("gauge")}}" class ="button2" >Gauge Graphs</a>
+<a href="{{url_for("plant_height")}}" class ="button3" >Plant Height</a>
+<a href="{{url_for("virtual_twin")}}" class ="button4" >Virtual_Twin</a>
+
+{{variable}}
+
+
+</body>
+</html>
+
+<style>
+.button{
+position:absolute;
+top:2%;
+left:15%;
+z-index:30;
+}
+
+.button2{
+position:absolute;
+top:2%;
+left:40%;
+z-index:30;
+}
+
+.button3{
+position:absolute;
+top:2%;
+left:65%;
+z-index:30;
+}
+.button4{
+position:absolute;
+top:2%;
+left:90%;
+z-index:30;
+}
+
+td{
+padding:10px;
+}
+
+td{
+border:1px solid black;
+}
+
+</style>
+
+

@@ -1,0 +1,123 @@
+<html>
+<head>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+<script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+  
+</head>
+<body>
+
+<h1> Plant Height</h1></h1>
+
+<a href="{{url_for("index")}}" class ="button" >Line Graphs</a>
+<a href="{{url_for("gauge")}}" class ="button2" >Gauge Graphs</a>
+<a href="{{url_for("table")}}" class ="button3" >Information Table</a>
+<a href="{{url_for("virtual_twin")}}" class ="button4" >Virtual_Twin</a>
+
+<div class = "table">{{height_table}}</div>
+
+<div id="canvas-holder" style="width:100%">
+    <canvas class="myCanvas" id="myCanvas"></canvas>
+</div>
+
+</body>
+</html>
+
+<style>
+.button{
+position:absolute;
+top:2%;
+left:15%;
+z-index:30;
+}
+
+.button2{
+position:absolute;
+top:2%;
+left:40%;
+z-index:30;
+}
+
+.button3{
+position:absolute;
+top:2%;
+left:65%;
+z-index:30;
+}
+
+.button4{
+position:absolute;
+top:2%;
+left:90%;
+z-index:30;
+}
+
+table{
+width:100%;
+}
+	
+td{
+padding:10px;
+height:20%;
+}
+
+th{
+border:2px solid black;
+text-align:center;
+font-size: 24px;
+}
+
+td{
+border:1px solid black;
+text-align:center;
+font-size: 18px;
+}
+
+.twenty{
+	width:5%;
+}
+
+.thirty{
+	width: 10%;
+}
+.myCanvas{
+height:60% !important;
+top:40%;
+}
+
+</style>
+<script>
+d3
+ .csv("/static/heights.csv")
+ .then(makeChart);
+ function makeChart(data) {
+      var week = data.map(function(d) {return d.week;});
+      var value = data.map(function(d) {return d.height;});
+
+    new Chart(document.getElementById("myCanvas"), {
+        
+  type: 'line',
+  data: {
+    labels: week,
+    datasets: [{
+        data: value,
+        label: "Height",
+        borderColor: "green",
+        fill: true
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Plant Height"
+    },
+    hover: {
+     mode: 'index',
+     intersect: true
+    },
+  }
+});}
+</script>

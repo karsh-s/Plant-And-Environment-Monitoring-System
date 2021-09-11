@@ -1,0 +1,223 @@
+<html>
+<head>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+<script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
+  
+</head>
+<body>
+
+<h1>Line Graphs</h1>
+
+<a href="{{url_for("gauge")}}" class ="button" >Gauge Graphs</a>
+<a href="{{url_for("table")}}" class ="button2" >Information Table</a>
+<a href="{{url_for("plant_height")}}" class ="button3" >Plant Height</a>
+<a href="{{url_for("virtual_twin")}}" class ="button4" >Virtual_Twin</a>
+<!--{{variable}}-->
+
+<div id="canvas-holder" style="width:100%">
+    <canvas class="myCanvas" id="myCanvas"></canvas>
+    <canvas class="myCanvas2" id="myCanvas2"></canvas>
+    <canvas class="myCanvas3" id="myCanvas3"></canvas>
+    <canvas class="myCanvas4" id="myCanvas4"></canvas>
+  </div>
+  
+</body>
+</html>
+
+<style>
+
+.button{
+position:absolute;
+top:2%;
+left:15%;
+z-index:30;
+}
+
+.button2{
+position:absolute;
+top:2%;
+left:40%;
+z-index:30;
+}
+
+.button3{
+position:absolute;
+top:2%;
+left:65%;
+z-index:30;
+}
+.button4{
+position:absolute;
+top:2%;
+left:90%;
+z-index:30;
+}
+.myCanvas{
+position:absolute;
+top:5%;
+left:0%;
+width:50% !important;
+height:45% !important;
+}
+
+.myCanvas4{
+position:absolute;
+top:5%;
+left:50%;
+width:50% !important;
+height:45% !important;
+}
+
+.myCanvas2{
+position:absolute;
+top:51%;
+left:0%;
+width:50% !important;
+height:49% !important;
+}
+
+.myCanvas3{
+position:absolute;
+top:51%;
+left:50%;
+width:50% !important;
+height:49% !important;
+}
+
+</style>
+
+<script>
+d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart);
+ function makeChart(data) {
+      var country = data.map(function(d) {return d.timestamp;});
+      var value = data.map(function(d) {return d.temperature;});
+
+    new Chart(document.getElementById("myCanvas"), {
+        
+  type: 'line',
+  data: {
+    labels: country,
+    datasets: [{
+        data: value,
+        label: "Temperature",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Environment's Temperaure"
+    },
+    hover: {
+     mode: 'index',
+     intersect: true
+    },
+  }
+});}
+ 
+ d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart4);
+ function makeChart4(data) {
+      var lighting = data.map(function(d) {return d.light;});
+        var country = data.map(function(d) {return d.timestamp;});
+
+    new Chart(document.getElementById("myCanvas4"), {
+        
+  type: 'line',
+  data: {
+    labels: country,
+    datasets: [{
+        data: lighting,
+        label: "Light",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Light around Plant'
+    },
+    hover: {
+     mode: 'index',
+     intersect: true
+    },
+  }
+});}
+ 
+ d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart2);
+ function makeChart2(data) {
+      var humid = data.map(function(d) {return d.humidity;});
+        var country = data.map(function(d) {return d.timestamp;});
+
+    new Chart(document.getElementById("myCanvas2"), {
+        
+  type: 'line',
+  data: {
+    labels: country,
+    datasets: [{
+        data: humid,
+        label: "Humidity",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Environment's Humidity"
+    },
+    hover: {
+     mode: 'index',
+     intersect: true
+    },
+  }
+});}
+ 
+ 
+  d3
+ .csv("/static/demofile3.csv")
+ .then(makeChart3);
+ function makeChart3(data) {
+      var soil = data.map(function(d) {return d.moisture;});
+        var country = data.map(function(d) {return d.timestamp;});
+
+    new Chart(document.getElementById("myCanvas3"), {
+        
+  type: 'line',
+  data: {
+    labels: country,
+    datasets: [{
+        data: soil,
+        label: "Soil Moisture",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Soil Moisture"
+    },
+    hover: {
+     mode: 'index',
+     intersect: true
+    },
+  }
+});}
+</script>
+
+
